@@ -2,8 +2,8 @@ package com.kennyjwilliams.submitbox.admin;
 
 import com.kennyjwilliams.submitbox.framework.Course;
 import com.kennyjwilliams.submitbox.CourseAPI;
+import com.kennyjwilliams.submitbox.configuration.Serialization;
 import com.kennyjwilliams.submitbox.framework.ftp.FTP;
-import com.kennyjwilliams.submitbox.framework.ftp.Downloader;
 import com.kennyjwilliams.submitbox.util.SLAPI;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -81,7 +82,13 @@ public class AdminPanel extends JFrame
         /*
         Setup the FTP Settings
         */
-        new Downloader(new FTP("vectorgaming.net", "u70048125", "baseball88", "this/is/test/"), "");
+        if(new File("settings"+File.separator+"settings.sbt").exists())
+        {
+            FTP.init(Serialization.deserializeFTP("settings"+File.separator+"settings.sbt"));
+        }else
+        {
+            FTP.init("", "", "", "", "");
+        }
         
         /*
         Menu Bar
