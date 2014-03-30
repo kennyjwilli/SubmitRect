@@ -1,10 +1,10 @@
-
 package com.kennyjwilliams.submitbox.admin;
 
 import com.kennyjwilliams.submitbox.framework.ftp.FTP;
 import com.kennyjwilliams.submitbox.framework.ftp.Downloader;
 import java.awt.BorderLayout;
 import java.awt.Dialog;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -12,6 +12,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 
 /**
  *
@@ -21,8 +22,9 @@ public class TestConnectionFrame extends JDialog
 {
     private JLabel connection;
     private JButton ok;
+    private JProgressBar uploadBar;
     
-    public TestConnectionFrame(Dialog d, String host, String user, String pass)
+    public TestConnectionFrame(Dialog d, final String host, final String user, final String pass)
     {
         super(d, "Testing Connection ...", true);
         setLayout(new BorderLayout());
@@ -38,6 +40,11 @@ public class TestConnectionFrame extends JDialog
         */
         connection = new JLabel("Connecting...");
         center.add(connection);
+        uploadBar = new JProgressBar(0, 100);
+        uploadBar.setStringPainted(false);
+        uploadBar.setIndeterminate(true);
+        uploadBar.setVisible(true);
+        center.add(uploadBar);
         
         /*
         Bottom OK button
@@ -67,26 +74,39 @@ public class TestConnectionFrame extends JDialog
         setLocationRelativeTo(null);
         setSize(300, 125);
         setResizable(true);
+        new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                testConnection(host, user, pass);
+            }
+        }).start();
+        
         setVisible(true);
-        testConnection(host, user, pass);
     }
     
     public void testConnection(String host, String user, String pass)
     {
-        System.out.println("1");
-        int status = Downloader.getFTP().canConnect();
-        if(status == FTP.LOGIN_ERROR)
+        final int status = Downloader.getFTP().canConnect();
+        EventQueue.invokeLater(new Runnable()
         {
-            connection.setText("Could not login to server...");
-        }else if (status == FTP.DIRECTORY_MISSING)
-        {
-            connection.setText("Invalid directory...");
-        }else
-        {
-            connection.setText("Connection Successful!");
-        }
-        System.out.println("2");
-        ok.setEnabled(true);
-        System.out.println("3");
+            @Override
+            public void run()
+            {
+                if(status == FTP.LOGIN_ERROR)
+                {
+                    connection.setText("Could not login to server...");
+                }else if (status == FTP.DIRECTORY_MISSING)
+                {
+                    connection.setText("Invalid directory...");
+                }else
+                {
+                    connection.setText("Connection Successful!");
+                }
+                uploadBar.setVisible(false);
+                ok.setEnabled(true);
+            }
+        });
     }
 }
