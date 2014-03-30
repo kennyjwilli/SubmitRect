@@ -4,6 +4,7 @@ import com.kennyjwilliams.submitbox.framework.Course;
 import com.kennyjwilliams.submitbox.CourseAPI;
 import com.kennyjwilliams.submitbox.framework.ftp.FTP;
 import com.kennyjwilliams.submitbox.framework.ftp.Downloader;
+import com.kennyjwilliams.submitbox.util.SLAPI;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -11,6 +12,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,6 +27,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -38,6 +43,33 @@ public class AdminPanel extends JFrame
     public AdminPanel()
     {
         super("Admin Panel");
+        //Sets the look and feel to the default for the OS of the user
+        try
+        {
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e){}
+        
+        //Save all courses on frame close
+        addWindowListener(new WindowListener()
+        {
+            public void windowOpened(WindowEvent e){}
+            public void windowClosing(WindowEvent e)
+            {
+                SLAPI.saveCourses();
+            }
+            public void windowClosed(WindowEvent e)
+            {
+                SLAPI.saveCourses();
+            }
+            public void windowIconified(WindowEvent e){}
+            public void windowDeiconified(WindowEvent e){}
+            public void windowActivated(WindowEvent e){}
+            public void windowDeactivated(WindowEvent e){}
+        });
+        
+        //Loads all courses
+        SLAPI.loadCourses();
+        
         JPanel main = new JPanel(new BorderLayout());
         
         JPanel top = new JPanel();
@@ -74,7 +106,7 @@ public class AdminPanel extends JFrame
         top.add(listTitle);
         
         //Adds the Table for the classes
-        setupClassesTemp();
+        //setupClassesTemp();
         listValues = new DefaultListModel();
         updateClassList(listValues);
         list = new JList(listValues);
@@ -147,7 +179,7 @@ public class AdminPanel extends JFrame
             {
                 if(list.getSelectedValue() != null)
                 {
-                    new EditClassPanel(CourseAPI.getCourse(list.getSelectedValue().toString()));
+                    new EditCoursePanel(CourseAPI.getCourse(list.getSelectedValue().toString()));
                 }
             }
         });
