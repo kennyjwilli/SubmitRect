@@ -1,6 +1,8 @@
 package com.kennyjwilliams.submitbox.admin;
 
+import com.kennyjwilliams.submitbox.configuration.Serialization;
 import com.kennyjwilliams.submitbox.framework.ftp.Downloader;
+import com.kennyjwilliams.submitbox.framework.ftp.FTP;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -8,6 +10,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -36,6 +40,21 @@ public class SettingsPanel extends JDialog
     public SettingsPanel(JFrame frame)
     {
         super(frame, "Settings", true);
+        
+        addWindowListener(new WindowListener()
+        {
+            public void windowOpened(WindowEvent e){}
+            public void windowClosing(WindowEvent e){}
+            public void windowClosed(WindowEvent e)
+            {
+                Serialization.serialize(FTP.getInstance());
+            }
+            public void windowIconified(WindowEvent e){}
+            public void windowDeiconified(WindowEvent e){}
+            public void windowActivated(WindowEvent e){}
+            public void windowDeactivated(WindowEvent e){}
+        });
+        
         JPanel main = new JPanel(new BorderLayout());
         
         //BorderLayout individual panels
@@ -56,19 +75,19 @@ public class SettingsPanel extends JDialog
         gbc.gridy = 0;
         gbc.insets = new Insets(3, 5, 1, 5);
         center.add(lbl, gbc);
-        hostField = new JTextField("");
+        hostField = new JTextField(FTP.getInstance().getHost());
         hostField.getDocument().addDocumentListener(new DocumentListener()
         {
             @Override
             public void insertUpdate(DocumentEvent e)
             {
-                Downloader.getFTP().setHost(hostField.getText());
+                FTP.getInstance().setHost(hostField.getText());
             }
 
             @Override
             public void removeUpdate(DocumentEvent e)
             {
-                Downloader.getFTP().setHost(hostField.getText());
+                FTP.getInstance().setHost(hostField.getText());
             }
 
             @Override
@@ -86,19 +105,19 @@ public class SettingsPanel extends JDialog
         gbc.gridy = 1;
         gbc.gridwidth = 1;
         center.add(lbl, gbc);
-        usrField = new JTextField("");
+        usrField = new JTextField(FTP.getInstance().getUser());
         usrField.getDocument().addDocumentListener(new DocumentListener()
         {
             @Override
             public void insertUpdate(DocumentEvent e)
             {
-                Downloader.getFTP().setUser(usrField.getText());
+                FTP.getInstance().setUser(usrField.getText());
             }
 
             @Override
             public void removeUpdate(DocumentEvent e)
             {
-                Downloader.getFTP().setUser(usrField.getText());
+                FTP.getInstance().setUser(usrField.getText());
             }
 
             @Override
@@ -116,19 +135,19 @@ public class SettingsPanel extends JDialog
         gbc.gridy = 2;
         gbc.gridwidth = 1;
         center.add(lbl, gbc);
-        passField = new JPasswordField("");
+        passField = new JPasswordField(FTP.getInstance().getPassword());
         passField.getDocument().addDocumentListener(new DocumentListener()
         {
             @Override
             public void insertUpdate(DocumentEvent e)
             {
-                Downloader.getFTP().setPassword(passField.getText());
+                FTP.getInstance().setPassword(passField.getText());
             }
 
             @Override
             public void removeUpdate(DocumentEvent e)
             {
-                Downloader.getFTP().setDirectory(passField.getText());
+                FTP.getInstance().setPassword(passField.getText());
             }
 
             @Override
@@ -146,19 +165,19 @@ public class SettingsPanel extends JDialog
         gbc.gridy = 3;
         gbc.gridwidth = 1;
         center.add(lbl, gbc);
-        remDirField = new JTextField("/this/is/test/");
+        remDirField = new JTextField(FTP.getInstance().getRemoteDirectory());
         remDirField.getDocument().addDocumentListener(new DocumentListener()
         {
             @Override
             public void insertUpdate(DocumentEvent e)
             {
-                Downloader.getFTP().setDirectory(remDirField.getText());
+                FTP.getInstance().setRemoteDirectory(remDirField.getText());
             }
 
             @Override
             public void removeUpdate(DocumentEvent e)
             {
-                Downloader.getFTP().setDirectory(remDirField.getText());
+                FTP.getInstance().setRemoteDirectory(remDirField.getText());
             }
 
             @Override
@@ -195,7 +214,7 @@ public class SettingsPanel extends JDialog
         gbc.gridy = 5;
         gbc.gridwidth = 1;
         center.add(lbl, gbc);
-        localDirField = new JTextField("/this/is/test/");
+        localDirField = new JTextField(FTP.getInstance().getDownloadDirectory());
         localDirField.getDocument().addDocumentListener(new DocumentListener()
         {
             @Override
@@ -229,7 +248,7 @@ public class SettingsPanel extends JDialog
             {
                 JFileChooser fc = new JFileChooser();
                 fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                int returnVal = fc.showDialog(SettingsPanel.this, "Select");
+                int returnVal = fc.showDialog(SettingsPanel.this, "Select Folder");
                 if(returnVal == JFileChooser.APPROVE_OPTION)
                 {
                     File f = fc.getSelectedFile();
