@@ -27,7 +27,7 @@ public class FTP implements Serializable
     private String directory;
     private String dlDir;
     private static FTP ftp;
-    private static FTPClient client;
+    private static FTPClient client = new FTPClient();
         
     public FTP(String host, String user, String pass, String directory, String dlDir)
     {
@@ -36,7 +36,6 @@ public class FTP implements Serializable
         this.pass = pass;
         this.directory = directory;
         this.dlDir = dlDir;
-        FTP.client = new FTPClient();
     }
     
     public static void init(String host, String user, String pass, String directory, String dlDir)
