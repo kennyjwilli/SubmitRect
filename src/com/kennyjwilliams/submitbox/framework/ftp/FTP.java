@@ -25,15 +25,33 @@ public class FTP implements Serializable
     private String user;
     private String pass;
     private String directory;
-    private final FTPClient client;
+    private String dlDir;
+    private static FTP ftp;
+    private static FTPClient client;
         
-    public FTP(String host, String user, String pass, String directory)
+    public FTP(String host, String user, String pass, String directory, String dlDir)
     {
         this.host = host;
         this.user = user;
         this.pass = pass;
         this.directory = directory;
-        this.client = new FTPClient();
+        this.dlDir = dlDir;
+        FTP.client = new FTPClient();
+    }
+    
+    public static void init(String host, String user, String pass, String directory, String dlDir)
+    {
+        FTP.ftp = new FTP(host, user, pass, directory, dlDir);
+    }
+    
+    public static void init(FTP ftp)
+    {
+        FTP.ftp = ftp;
+    }
+    
+    public static FTP getInstance()
+    {
+        return ftp;
     }
     
     public String getHost()
@@ -66,14 +84,24 @@ public class FTP implements Serializable
         this.pass = pass;
     }
     
-    public String getDirectory()
+    public String getRemoteDirectory()
     {
         return directory;
     }
     
-    public void setDirectory(String directory)
+    public void setRemoteDirectory(String directory)
     {
         this.directory = directory;
+    }
+    
+    public String getDownloadDirectory()
+    {
+        return dlDir;
+    }
+    
+    public void setDownloadDirectory(String dlDir)
+    {
+        this.dlDir = dlDir;
     }
     
     public int canConnect()
@@ -87,7 +115,7 @@ public class FTP implements Serializable
             {
                 out = LOGIN_ERROR;
             }
-            if(!fileExists(getDirectory()))
+            if(!fileExists(getRemoteDirectory()))
             {
                 out = DIRECTORY_MISSING;
             }
