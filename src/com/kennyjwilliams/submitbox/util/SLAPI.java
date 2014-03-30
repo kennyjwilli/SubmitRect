@@ -24,7 +24,7 @@ public class SLAPI
     {
         for(File f : new File("courses").listFiles())
         {
-            CourseAPI.addCourse(Serialization.deserialize(f.getAbsolutePath()));
+            CourseAPI.addCourse(Serialization.deserializeCourse(f.getAbsolutePath()));
         }
     }
 }
