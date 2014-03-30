@@ -1,12 +1,13 @@
 package com.kennyjwilliams.submitbox.framework;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author Kenny
  */
-public class Course extends Savable
+public class Course extends Savable implements Serializable
 {
     private String name;
     private ArrayList<Assignment> assignments;
