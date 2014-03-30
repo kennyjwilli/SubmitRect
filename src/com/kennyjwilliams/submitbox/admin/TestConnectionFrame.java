@@ -88,7 +88,7 @@ public class TestConnectionFrame extends JDialog
     
     public void testConnection(String host, String user, String pass)
     {
-        final int status = Downloader.getFTP().canConnect();
+        final int status = FTP.getInstance().canConnect();
         EventQueue.invokeLater(new Runnable()
         {
             @Override
