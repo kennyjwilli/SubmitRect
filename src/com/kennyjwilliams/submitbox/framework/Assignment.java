@@ -1,5 +1,6 @@
 package com.kennyjwilliams.submitbox.framework;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
@@ -7,7 +8,7 @@ import java.util.Date;
  *
  * @author Kenny
  */
-public class Assignment 
+public class Assignment implements Serializable
 {
     private String name;
     private DueDate dueDate;
