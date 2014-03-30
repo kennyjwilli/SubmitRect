@@ -7,7 +7,7 @@ import java.util.ArrayList;
  *
  * @author Kenny
  */
-public class Course extends Savable implements Serializable
+public class Course implements Serializable
 {
     private String name;
     private ArrayList<Assignment> assignments;
