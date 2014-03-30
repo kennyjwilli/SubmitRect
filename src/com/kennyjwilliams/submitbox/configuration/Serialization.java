@@ -1,7 +1,6 @@
 package com.kennyjwilliams.submitbox.configuration;
 
 import com.kennyjwilliams.submitbox.framework.Course;
-import com.kennyjwilliams.submitbox.framework.ftp.Downloader;
 import com.kennyjwilliams.submitbox.framework.ftp.FTP;
 import java.io.File;
 import java.io.FileInputStream;
