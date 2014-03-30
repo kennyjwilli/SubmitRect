@@ -1,8 +1,10 @@
 
 package com.kennyjwilliams.submitbox.util;
 
-import java.io.FileWriter;
-import org.yaml.snakeyaml.Yaml;
+import com.kennyjwilliams.submitbox.CourseAPI;
+import com.kennyjwilliams.submitbox.configuration.Serialization;
+import com.kennyjwilliams.submitbox.framework.Course;
+import java.io.File;
 
 /**
  *
@@ -10,14 +12,19 @@ import org.yaml.snakeyaml.Yaml;
  */
 public class SLAPI 
 {
-    public static void saveClasses()
+    public static void saveCourses()
     {
-        Yaml yaml = new Yaml();
-        FileWriter fw;
-        try
+        for(Course c : CourseAPI.getCourses())
         {
-            fw = new FileWriter("classes.yml");
-            yaml.d
+            Serialization.serialize(c);
+        }
+    }
+    
+    public static void loadCourses()
+    {
+        for(File f : new File("courses").listFiles())
+        {
+            CourseAPI.addCourse(Serialization.deserialize(f.getAbsolutePath()));
         }
     }
 }
