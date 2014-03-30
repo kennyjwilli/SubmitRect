@@ -1,12 +1,13 @@
 package com.kennyjwilliams.submitbox.framework;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author Kenny
  */
-public class DueDate 
+public class DueDate implements Serializable
 {
     private Date date;
     
