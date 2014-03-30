@@ -1,6 +1,7 @@
 package com.kennyjwilliams.submitbox.framework.ftp;
 
 import java.io.IOException;
+import java.io.Serializable;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 
@@ -8,7 +9,7 @@ import org.apache.commons.net.ftp.FTPFile;
  *
  * @author Kenny
  */
-public class FTP 
+public class FTP implements Serializable
 {
     /*
     Class enums
