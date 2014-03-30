@@ -22,6 +22,11 @@ public class SLAPI
     
     public static void loadCourses()
     {
+        File dir = new File("courses");
+        if(!dir.exists())
+        {
+            dir.mkdirs();
+        }
         for(File f : new File("courses").listFiles())
         {
             CourseAPI.addCourse(Serialization.deserializeCourse(f.getAbsolutePath()));
