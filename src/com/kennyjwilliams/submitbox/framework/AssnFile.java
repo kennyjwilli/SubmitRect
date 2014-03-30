@@ -2,12 +2,13 @@
 package com.kennyjwilliams.submitbox.framework;
 
 import java.io.File;
+import java.io.Serializable;
 
 /**
  *
  * @author Kenny
  */
-public class AssnFile 
+public class AssnFile implements Serializable
 {
     private File file;
     
