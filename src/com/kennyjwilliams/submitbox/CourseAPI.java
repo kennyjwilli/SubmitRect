@@ -70,15 +70,4 @@ public class CourseAPI
         }
         return result;
     }
-    
-    /**
-     * Saves all the courses
-     */
-    public static void saveAll()
-    {
-        for(Course c : classes)
-        {
-            c.save(c.getName());
-        }
-    }
 }
