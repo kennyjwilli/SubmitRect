@@ -1,10 +1,12 @@
 package com.kennyjwilliams.submitbox.framework.ftp;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Kenny
  */
-public class Downloader 
+public class Downloader implements Serializable
 {  
     private static FTP ftp;
     private static String dlDir;
