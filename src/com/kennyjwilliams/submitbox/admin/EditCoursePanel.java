@@ -93,10 +93,13 @@ public class EditCoursePanel extends JFrame
             public void mouseClicked(MouseEvent e)
             {
                 int i = assignments.getSelectedIndex();
-                String selected = assignments.getSelectedValue().toString();
-                assn = c.getAssignment(selected);
-                updateTextFields();
-                assignments.setSelectedIndex(i);
+                if(assignments.getSelectedValue() != null)
+                {
+                    String selected = assignments.getSelectedValue().toString();
+                    assn = c.getAssignment(selected);
+                    updateTextFields();
+                    assignments.setSelectedIndex(i);
+                }
             }
         });
         JScrollPane scrollList = new JScrollPane(assignments);
@@ -139,8 +142,11 @@ public class EditCoursePanel extends JFrame
         /*
         Selected assignment
         */
+        if(!c.getAssignments().isEmpty())
+        {
+            assn = c.getAssignment(assignments.getSelectedValue().toString());
+        }
         
-        assn = c.getAssignment(assignments.getSelectedValue().toString());
         
         /*
         Text Field Panel
@@ -156,7 +162,13 @@ public class EditCoursePanel extends JFrame
         gbc.gridx = 0;
         gbc.gridy = 0;
         fieldPanel.add(nameLbl, gbc);
-        nameTxt = new JTextField(assn.getName());
+        if(assn == null)
+        {
+            nameTxt = new JTextField();
+        }else
+        {
+            nameTxt = new JTextField(assn.getName());
+        }
         nameTxt.setPreferredSize(txtFieldDim);
         nameTxt.getDocument().addDocumentListener(new DocumentListener()
         {
@@ -191,7 +203,13 @@ public class EditCoursePanel extends JFrame
         gbc.gridx = 0;
         gbc.gridy = 2;
         fieldPanel.add(dateLbl, gbc);
-        dateTxt = new JTextField(assn.getDueDate().getDateFormatted());
+        if(assn == null)
+        {
+            dateTxt = new JTextField();
+        }else
+        {
+            dateTxt = new JTextField(assn.getDueDate().getDateFormatted());
+        }
         dateTxt.setPreferredSize(txtFieldDim);
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -217,7 +235,13 @@ public class EditCoursePanel extends JFrame
         gbc.gridx = 0;
         gbc.gridy = 4;
         fieldPanel.add(timeLbl, gbc);
-        timeTxt = new JTextField(assn.getDueDate().getTimeFormatted());
+        if(assn == null)
+        {
+            timeTxt = new JTextField();
+        }else
+        {
+            timeTxt = new JTextField(assn.getDueDate().getTimeFormatted());
+        }
         timeTxt.setPreferredSize(txtFieldDim);
         gbc.gridx = 0;
         gbc.gridy = 5;
@@ -239,7 +263,14 @@ public class EditCoursePanel extends JFrame
         fieldPanel.add(timeBtn, gbc);
         
         //Allow late check box
-        final JCheckBox allowLate = new JCheckBox("Allow late assignments", assn.canSubmitLate());
+        final JCheckBox allowLate;
+        if(assn == null)
+        {
+            allowLate = new JCheckBox();
+        }else
+        {
+            allowLate = new JCheckBox("Allow late assignments", assn.canSubmitLate());
+        }
         allowLate.addItemListener(new ItemListener()
         {
             @Override
