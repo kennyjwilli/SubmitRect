@@ -1,7 +1,6 @@
 package com.kennyjwilliams.submitbox.admin;
 
 import com.kennyjwilliams.submitbox.configuration.Serialization;
-import com.kennyjwilliams.submitbox.framework.ftp.Downloader;
 import com.kennyjwilliams.submitbox.framework.ftp.FTP;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
