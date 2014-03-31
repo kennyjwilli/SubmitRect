@@ -159,7 +159,6 @@ public class AdminPanel extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                
                 if(list.getSelectedValue() != null)
                 {
                     String className = list.getSelectedValue().toString();
@@ -167,6 +166,7 @@ public class AdminPanel extends JFrame
                     if(delete == JOptionPane.OK_OPTION)
                     {
                         removeClass(list.getSelectedValue().toString());
+                        
                     }
                 }
             }
@@ -177,7 +177,7 @@ public class AdminPanel extends JFrame
         right.add(remove, gbc);
         
         //Edit class button
-        JButton edit = new JButton("Edit class");
+        JButton edit = new JButton("Edit Assignments");
         edit.setPreferredSize(btnDim);
         edit.addActionListener(new ActionListener()
         {
