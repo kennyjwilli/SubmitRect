@@ -49,6 +49,7 @@ public class EditCoursePanel extends JFrame
     private JTextField nameTxt;
     private JTextField dateTxt;
     private JTextField timeTxt;
+    private final JCheckBox allowLate;
     
     public EditCoursePanel(final Course c)
     {
@@ -134,6 +135,10 @@ public class EditCoursePanel extends JFrame
                 if(newAssignment == JOptionPane.YES_OPTION)
                 {
                     removeAssignment(c.getAssignment(assignment));
+                    nameTxt.setText("");
+                    dateTxt.setText("");
+                    timeTxt.setText("");
+                    allowLate.setSelected(false);
                 }
             }
         });
@@ -175,13 +180,19 @@ public class EditCoursePanel extends JFrame
             @Override
             public void insertUpdate(DocumentEvent e)
             {
-                update();
+                if(!listValues.isEmpty())
+                {
+                    update();
+                }
             }
 
             @Override
             public void removeUpdate(DocumentEvent e)
             {
-                update();
+                if(!listValues.isEmpty())
+                {
+                    update();
+                }
             }
 
             @Override
@@ -222,7 +233,10 @@ public class EditCoursePanel extends JFrame
             {
                 if(evt.getNewValue() instanceof Date)
                 {
-                    setDate(assn, (Date) evt.getNewValue());
+                    if(assn != null)
+                    {
+                        setDate(assn, (Date) evt.getNewValue());
+                    }
                 }
             }         
         });
@@ -254,7 +268,10 @@ public class EditCoursePanel extends JFrame
             {
                 if(evt.getNewValue() instanceof Date)
                 {
-                    setTime(assn, (Date) evt.getNewValue());
+                    if(assn != null)
+                    {
+                        setTime(assn, (Date) evt.getNewValue());
+                    }
                 }
             }            
         });
@@ -263,10 +280,9 @@ public class EditCoursePanel extends JFrame
         fieldPanel.add(timeBtn, gbc);
         
         //Allow late check box
-        final JCheckBox allowLate;
         if(assn == null)
         {
-            allowLate = new JCheckBox();
+            allowLate = new JCheckBox("Allow late assignments");
         }else
         {
             allowLate = new JCheckBox("Allow late assignments", assn.canSubmitLate());
@@ -276,7 +292,10 @@ public class EditCoursePanel extends JFrame
             @Override
             public void itemStateChanged(ItemEvent e)
             {
-                assn.setSubmitLate(allowLate.isSelected());
+                if(assn != null)
+                {
+                    assn.setSubmitLate(allowLate.isSelected());
+                }
             }
         });
         gbc.gridx = 0;
