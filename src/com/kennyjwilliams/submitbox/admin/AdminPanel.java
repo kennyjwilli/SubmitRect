@@ -165,8 +165,9 @@ public class AdminPanel extends JFrame
                     int delete = JOptionPane.showConfirmDialog(null, "Aren you sure you want to delete "+className, "Delete Class?", JOptionPane.YES_NO_OPTION);
                     if(delete == JOptionPane.OK_OPTION)
                     {
-                        removeClass(list.getSelectedValue().toString());
-                        
+                        String course = list.getSelectedValue().toString();
+                        removeClass(course);
+                        new File("courses"+File.separator+course+".sbt").delete();
                     }
                 }
             }
