@@ -1,7 +1,6 @@
 package com.kennyjwilliams.submitbox.admin;
 
 import com.kennyjwilliams.submitbox.framework.ftp.FTP;
-import com.kennyjwilliams.submitbox.framework.ftp.Downloader;
 import java.awt.BorderLayout;
 import java.awt.Dialog;
 import java.awt.EventQueue;
