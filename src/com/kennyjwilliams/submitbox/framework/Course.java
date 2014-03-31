@@ -20,7 +20,7 @@ public class Course implements Serializable
     {
         this.name = name;
         assignments = new ArrayList<>();
-        addAssignment(new Assignment("Default"));
+        //addAssignment(new Assignment("Default"));
     }
     
     /**
