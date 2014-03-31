@@ -65,7 +65,7 @@ public class Course implements Serializable
      */
     public void removeAssignment(String assignment)
     {
-        assignments.remove(getAssignment(name));
+        assignments.remove(getAssignment(assignment));
     }
     
     /**
